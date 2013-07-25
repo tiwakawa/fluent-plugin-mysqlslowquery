@@ -18,4 +18,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "myslog"
   gem.add_runtime_dependency "fluentd"
   gem.add_runtime_dependency "myslog"
+  gem.add_runtime_dependency "activesupport"
 end

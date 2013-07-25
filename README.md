@@ -18,8 +18,11 @@ Edit conf file.
   type mysql_slow_query
   path /path/to/mysqld-slow.log
   tag mysqld.slow_query
+  key_type string
 </source>
 ```
+
+`key_type` is key type of Emit stream's record (hash). string or symbol.
 
 ##Expected record format
 

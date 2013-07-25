@@ -14,11 +14,14 @@
 # limitations under the License.
 #
 require "myslog"
+require "active_support/core_ext"
 
 module Fluent
 
 class MySQLSlowQueryInput < TailInput
   Plugin.register_input('mysql_slow_query', self)
+
+  config_param :key_type, :string, default: 'symbol'
 
   def configure_parser(conf)
     @parser = MySlog.new
@@ -34,6 +37,7 @@ class MySQLSlowQueryInput < TailInput
         else
           time = Time.now.to_i
         end
+        record.stringify_keys! unless @key_type == "symbol"
         es.add(time, record)
       rescue
         $log.warn record, :error=>$!.to_s
