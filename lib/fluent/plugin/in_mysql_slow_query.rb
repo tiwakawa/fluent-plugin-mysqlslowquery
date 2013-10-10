@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 require "myslog"
-require "active_support/core_ext"
 
 module Fluent
 
@@ -37,7 +36,14 @@ class MySQLSlowQueryInput < TailInput
         else
           time = Time.now.to_i
         end
-        record.stringify_keys! unless @key_type == "symbol"
+
+        unless @key_type == "symbol"
+          # stringify_keys
+          record.keys.each do |key|
+            record[key.to_s] = record.delete(key)
+          end
+        end
+
         es.add(time, record)
       rescue
         $log.warn record, :error=>$!.to_s
